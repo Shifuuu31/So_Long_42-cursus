@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "get_next_line.h": "c",
+        "sstream": "c",
+        "libft.h": "c",
+        "so_long.h": "c",
+        "algorithm": "c",
+        "__locale": "c"
+    }
+}
