@@ -6,10 +6,18 @@ void ft_put_err(char *err_msg)
     exit(1);
 }
 
-int ft_count_tab(char **data)
+bool compare_c_to_str(char *str, char c)
 {
     int i = 0;
-    while(data[i])
+
+    if (str == NULL)
+        return 0;
+
+    while (str[i])
+    {
+        if(str[i] != c)
+            return 0;
         i++;
-    return (i);
+    }
+    return 1;
 }

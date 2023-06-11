@@ -1,19 +1,5 @@
 #include "so_long.h"
 
-bool compare_c_to_str(char *str, char c) {
-    int i = 0;
-
-    if (str == NULL)
-        return 0;
-
-    while (str[i])
-    {
-        if(str[i] != c)
-            return 0;
-        i++;
-    }
-    return 1;
-}
 
 int check_extention(t_data *data, char *filename)
 {
@@ -44,32 +30,35 @@ void join_and_splitmap(t_data *data)
 
 void    load_map(t_data *data, char *filename)
 {
-    int i;
+    
     data->map_line = NULL;
-    data->map = NULL;
 
-    i = 1;
+    data->map_height = 0;
     data->map_file = open(filename, O_RDONLY);
     data->map_line = get_next_line(data->map_file);
     while (data->map_line)
     {
         free(data->map_line);
         data->map_line = get_next_line(data->map_file);
-        i++;
+        data->map_height++;
     }
-    int map_lines = i;
-    data->map = malloc(sizeof(char *) * (i + 1));
+     printf("\n height = %zu\n", data->map_height);
+    if(data->map_height == 0)
+        ft_put_err("Unable to find map");
+    int map_lines = data->map_height;
+    data->map = malloc(sizeof(char *) * (data->map_height + 1));
     if (!data->map)
         exit(1);
     close(data->map_file);
     data->map_file = open(filename, O_RDONLY);
     if (data->map_file == -1)
         ft_put_err("Failed to open the map file.\n");
+    int i;
     i = 0;
     while (map_lines > 0)
     {
         data->map[i] = get_next_line(data->map_file);
-        if (!data->map[i])
+        if (!data->map[i] || data->map[i][0] != '1')
             break ;
         i++;
         map_lines --;
@@ -81,15 +70,12 @@ void check_map_size(t_data *data)
 {
     int i;
 
-
     i = 0;
     data->map_width = ft_strlen(data->map[0]);
-    data->map_height = ft_count_tab(data->map);
     while (data->map[i])
     {
-        printf("%s\n", data->map[i]);
         if(data->map_width != ft_strlen(data->map[i]))
-            ft_put_err("Invalid map1\n");
+            ft_put_err("Invalid map: map size error\n");
         i++;
     }
 
@@ -100,109 +86,91 @@ void check_walls(t_data *data)
     int  i = 0;
    
     if (compare_c_to_str(data->map[0], '1') == 0)
-        ft_put_err("Invalid map2\n");
+        ft_put_err("Invalid map: walls error1\n");
+    if (compare_c_to_str(data->map[data->map_height - 1], '1') == 0)
+        ft_put_err("Invalid map: walls error2\n");
 
-    if (compare_c_to_str(data->map[ft_count_tab(data->map) - 1], '1') == 0)
-    {
-        // puts("here");
-        ft_put_err("Invalid map3\n");
-    }
     while(data->map[i])
     {
         if (data->map[i][0] != '1' || data->map[i][ft_strlen(data->map[i]) - 1] != '1')
-            ft_put_err("Invalid map4\n");
+            ft_put_err("Invalid map: walls error3\n");
         i++;
     }
 }
 
-void check_map_elements(t_data *data, t_elmt *element)
+void check_map_data(t_data *data)
 {
     int i = 0;
     int j;
-    element->p = 0;
-    element->c = 0;
-    element->e = 0;
+    data->p = 0;
+    data->c = 0;
+    data->e = 0;
     while(data->map[i])
     {
         j = 0;
         while(data->map[i][j])
         {
+            if(data->map[i][j] != '0' && data->map[i][j] != '1' 
+            && data->map[i][j] != 'E' && data->map[i][j] != 'P'
+            && data->map[i][j] != 'C')
+            {
+                printf("%c\n-----\ni = [%d] | j =[%d]\n", data->map[i][j], i, j);
+                ft_put_err("Invalid map: datas error1\n");
+            }
             if(data->map[i][j] == 'P')
             {
-                element->p++;
+                data->p++;
             }
             if(data->map[i][j] == 'C')
             {
-                element->c++;
+                data->c++;
             }
             if(data->map[i][j] == 'E')
             {
-                element->e++;
+                data->e++;
             }
             j++;
         }
         i++;
     }
-    if (element->p != 1 || !element->c || element->e != 1)
+    if (data->p != 1 || !data->c || data->e != 1)
     {
-        ft_put_err("Invalid map5\n");
+        ft_put_err("Invalid map: datas error2\n");
     }
 }
 
-void get_player_position(t_data *data, t_elmt *element)
+void get_player_position(t_data *data)
 {
-    element->y = 0;
-    while(data->map[element->y])
+    data->py = 0;
+    while(data->map[data->py])
     {
-        element->x = 0;
-        while(data->map[element->y][element->x])
+        data->px = 0;
+        while(data->map[data->py][data->px])
         {
-            if(data->map[element->y][element->x] == 'P')
+            if(data->map[data->py][data->px] == 'P')
+                return;
+            data->px++;
+        }
+        data->py++;
+    }
+}
+
+void get_exit_position(t_data *data)
+{
+    data->ey = 0;
+    while(data->map[data->ey])
+    {
+        data->ex = 0;
+        while(data->map[data->ey][data->ex])
+        {
+            if(data->map[data->ey][data->ex] == 'E')
             {
                 return;
             }
-            element->x++;
+            data->ex++;
         }
-        element->y++;
+        data->ey++;
     }
 }
 
-void get_exit_position(t_data *data, t_elmt *element)
-{
-    element->e_y = 0;
-    while(data->map[element->e_y])
-    {
-        element->e_x = 0;
-        while(data->map[element->e_y][element->e_x])
-        {
-            if(data->map[element->e_y][element->e_x] == 'E')
-            {
-                return;
-            }
-            element->e_x++;
-        }
-        element->e_y++;
-    }
-}
 
-// void check_collecteble(char **map)
-// {
-//     int i = 0;
-//     int j;
-//     while(map[i])
-//     {
-//     puts("here");
-//         j= 0;
-//         while (map[i][j])
-//         {
-//             if (map[i][j] == 'C')
-//             {
-//                 if (map[i][j + 1] == '1' && map[i][j - 1] == '1' 
-//                 && map[i + 1][j] == '1' && map[i - 1][j] == '1')
-// 	            	ft_put_err("Invalid map5\n");
-//             }
-//             j++;  
-//         }
-//         i++;
-//     }
-// }
