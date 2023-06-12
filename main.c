@@ -12,7 +12,7 @@ int main(int ac, char** av)
 	memset(&data, 0, sizeof(t_data));
 	check_extention(&data, av[1]);
 	load_map(&data, av[1]);
-	join_and_splitmap(&data);
+
 	puts("------------------");
 	puts("Original Map:");
 	puts("------------------");

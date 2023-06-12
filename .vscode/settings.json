@@ -5,6 +5,7 @@
         "libft.h": "c",
         "so_long.h": "c",
         "algorithm": "c",
-        "__locale": "c"
+        "__locale": "c",
+        "stdio.h": "c"
     }
 }

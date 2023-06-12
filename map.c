@@ -15,54 +15,31 @@ int check_extention(t_data *data, char *filename)
     return(0);
 }
 
-void join_and_splitmap(t_data *data)
-{
-    int i = 2;
-    char *joined;
-    joined = ft_strjoin(data->map[0], data->map[1]);
-    while(data->map[i])
-    {
-        joined = ft_strjoin(joined, data->map[i]);
-        i++;
-    }
-    data->map = ft_split(joined, '\n');
-}
-
 void    load_map(t_data *data, char *filename)
 {
     
-    data->map_line = NULL;
+	char	*buffer;
+    int		check;
 
-    data->map_height = 0;
+	data->map_line = ft_strdup("");
     data->map_file = open(filename, O_RDONLY);
-    data->map_line = get_next_line(data->map_file);
-    while (data->map_line)
-    {
-        free(data->map_line);
-        data->map_line = get_next_line(data->map_file);
-        data->map_height++;
-    }
-     printf("\n height = %zu\n", data->map_height);
-    if(data->map_height == 0)
-        ft_put_err("Unable to find map");
-    int map_lines = data->map_height;
-    data->map = malloc(sizeof(char *) * (data->map_height + 1));
-    if (!data->map)
+	if (data->map_file == -1)
+		ft_put_err("Failed to open the map file.\n");
+	buffer = malloc(sizeof(char) * 2);
+    if(!buffer)
         exit(1);
-    close(data->map_file);
-    data->map_file = open(filename, O_RDONLY);
-    if (data->map_file == -1)
-        ft_put_err("Failed to open the map file.\n");
-    int i;
-    i = 0;
-    while (map_lines > 0)
-    {
-        data->map[i] = get_next_line(data->map_file);
-        if (!data->map[i] || data->map[i][0] != '1')
-            break ;
-        i++;
-        map_lines --;
-    }
+	check = read(data->map_file, buffer, 1);
+    if(check == -1 || !check)
+		ft_put_err("Failed to open the map file.\n");
+	buffer[1] = '\0';
+	while (check > 0)
+	{
+		data->map_line = ft_strjoin(data->map_line, buffer);
+		check = read(data->map_file, buffer, 1);
+		buffer[1] = '\0';
+	}
+	free(buffer);
+    data->map = ft_split(data->map_line, '\n');
     close(data->map_file);
 }
 
@@ -71,7 +48,11 @@ void check_map_size(t_data *data)
     int i;
 
     i = 0;
+    data->map_width = 0;
+    data->map_height = 0;
     data->map_width = ft_strlen(data->map[0]);
+    while(data->map[data->map_height])
+        data->map_height++;
     while (data->map[i])
     {
         if(data->map_width != ft_strlen(data->map[i]))

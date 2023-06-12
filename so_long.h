@@ -2,7 +2,6 @@
 # define SO_LONG_H
 
 #include "libft/libft.h"
-#include "get_next_line/get_next_line.h"
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
@@ -29,6 +28,7 @@ typedef struct s_data
 	void *wall_img;
 	void *player_img;
 	void *exit_img;
+	void *o_exit_img;
 	void *coin_img;
 	char	*map_line;
 	char	**map;
@@ -53,7 +53,6 @@ void    load_map(t_data *data, char *filename);
 void check_walls(t_data *data);
 void check_map_size(t_data *data);
 void ft_put_err(char *err_msg);
-void join_and_splitmap(t_data *data);
 void check_map_data(t_data *data);
 void get_player_position(t_data *data);
 void get_exit_position(t_data *data);
@@ -63,6 +62,7 @@ void create_new_win(t_data *data);
 void rendr_all(t_data *data, int x, int y);
 bool compare_c_to_str(char *str, char c);
 int move_player(int key_code, t_data *data);
+int kill_window(int key, void *param);
 void	render_map(t_data *data);
 
 

@@ -4,7 +4,6 @@ SRCS = main.c \
        path.c \
        window.c \
        move.c \
-       get_next_line/get_next_line.c \
 	   libft/ft_strlen.c \
 	   libft/ft_strdup.c \
 	   libft/ft_memcpy.c \
@@ -18,7 +17,6 @@ SRCS = main.c \
 
 OBJS			= $(SRCS:.c=.o)
 HDRS			=	so_long.h \
-					get_next_line/get_next_line.h \
 					libft/libft.h
 CC				= cc
 RM				= rm -f
