@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: asaadane <asaadane@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/13 03:56:27 by asaadane          #+#    #+#             */
+/*   Updated: 2023/06/13 03:56:28 by asaadane         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
 
@@ -14,7 +26,18 @@ int check_extention(t_data *data, char *filename)
             }
     return(0);
 }
+void check_nl(t_data *data)
+{
+    int i;
 
+    i = 0;
+    while(data->map_line[i])
+    {
+        if(data->map_line[i] == '\n' && data->map_line[i + 1] == '\n')
+            ft_put_err("Invalid map2");
+        i++;
+    }
+}
 void    load_map(t_data *data, char *filename)
 {
     
@@ -39,6 +62,7 @@ void    load_map(t_data *data, char *filename)
 		buffer[1] = '\0';
 	}
 	free(buffer);
+    check_nl(data);
     data->map = ft_split(data->map_line, '\n');
     close(data->map_file);
 }
@@ -99,17 +123,11 @@ void check_map_data(t_data *data)
                 ft_put_err("Invalid map: datas error1\n");
             }
             if(data->map[i][j] == 'P')
-            {
                 data->p++;
-            }
             if(data->map[i][j] == 'C')
-            {
                 data->c++;
-            }
             if(data->map[i][j] == 'E')
-            {
                 data->e++;
-            }
             j++;
         }
         i++;

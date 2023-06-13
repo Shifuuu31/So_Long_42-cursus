@@ -1,28 +1,33 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   move.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: asaadane <asaadane@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/13 03:56:48 by asaadane          #+#    #+#             */
+/*   Updated: 2023/06/13 03:56:49 by asaadane         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
-int move_player(int key, t_data *data)
+void check_esc()
 {
-    int row;
-    int col;
+    write(1, " ██████   █████  ███    ███ ███████      ██████  ██    ██ ███████ ██████      ██ ██\n", 187);
+    write(1, "██       ██   ██ ████  ████ ██          ██    ██ ██    ██ ██      ██   ██     ██ ██\n", 153);
+    write(1, "██   ███ ███████ ██ ████ ██ █████       ██    ██ ██    ██ █████   ██████      ██ ██\n", 181);
+    write(1, "██    ██ ██   ██ ██  ██  ██ ██          ██    ██  ██  ██  ██      ██   ██\n", 135);
+    write(1, " ██████  ██   ██ ██      ██ ███████      ██████    ████   ███████ ██   ██     ██ ██\n", 177);
+    exit(0);
+}
 
-    printf("\n%d\n",key);
-    if (key == 53)
-    {
-        write(1, " ██████   █████  ███    ███ ███████      ██████  ██    ██ ███████ ██████      ██ ██\n", 187);
-        write(1, "██       ██   ██ ████  ████ ██          ██    ██ ██    ██ ██      ██   ██     ██ ██\n", 153);
-        write(1, "██   ███ ███████ ██ ████ ██ █████       ██    ██ ██    ██ █████   ██████      ██ ██\n", 181);
-        write(1, "██    ██ ██   ██ ██  ██  ██ ██          ██    ██  ██  ██  ██      ██   ██\n", 135);
-        write(1, " ██████  ██   ██ ██      ██ ███████      ██████    ████   ███████ ██   ██     ██ ██\n", 177);
-        exit(0);
-    }
-    col = (key == 126) * (-1) + (key == 125);
-    row = (key == 123) * (-1) + (key == 124);
-
-    if (!col && !row)
-        return (0);
+int move_player(t_data *data, int row, int col)
+{
     printf("%d, %d\n", col, row);
     printf("%d, %d\n", data->py, data->px);
     printf("Coins: %d\n", data->c);
-
+    if (!col && !row)
+        return (0);
     if (data->map[data->py + col][data->px + row] != '1')
     {
         if (data->map[data->py + col][data->px + row] == 'E')
@@ -45,15 +50,40 @@ int move_player(int key, t_data *data)
         data->px += row;
         data->py += col;
         mlx_clear_window(data->mlx, data->mlx_win);
-        
         render_map(data);
     }
+    return(0);
+}
+int key_handle(int key, t_data *data)
+{
+    int row;
+    int col;
+
+    printf("\n%d\n",key);
+    if (key == 53)
+    {
+        check_esc();
+    }
+    else if(key == 0 || key == 1 || key == 2 || key == 13)
+    {
+        col = (key == 13) * (-1) + (key == 1);
+        row = (key == 0) * (-1) + (key == 2);
+        move_player(data, row, col);
+        
+    }
+    else if(key == 123 || key == 124 || key == 125 || key == 126)
+    {
+        col = (key == 126) * (-1) + (key == 125);
+        row = (key == 123) * (-1) + (key == 124);
+        move_player(data, row, col);
+
+    }
+
     return(0);
 }
 
 // row (y+1) (y-1)
 // col (x+1) (x-1)
-
 
 int kill_window(int key, void *param)
 {

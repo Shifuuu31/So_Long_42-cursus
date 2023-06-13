@@ -1,15 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: asaadane <asaadane@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/13 03:56:39 by asaadane          #+#    #+#             */
+/*   Updated: 2023/06/13 03:59:13 by asaadane         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
-
-int main(int ac, char** av)
+int	main(int ac, char **av)
 {
-	t_data data;
-	int i;
+	int		i;
+	t_data	data;
 
 	if (ac < 2)
 		ft_put_err("Usage : ./so_long <map.ber>\n");
-	
-	memset(&data, 0, sizeof(t_data));
+	ft_memset(&data, 0, sizeof(t_data));
 	check_extention(&data, av[1]);
 	load_map(&data, av[1]);
 
@@ -43,6 +53,8 @@ int main(int ac, char** av)
 	}
 	puts("------------------");
 	scan_map(&data);
-	create_new_win(&data);
+	game_window(&data);
+	free(data.tmp_map);
+	free(data.map);
 	return(0);
 }

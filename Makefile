@@ -7,6 +7,7 @@ SRCS = main.c \
 	   libft/ft_strlen.c \
 	   libft/ft_strdup.c \
 	   libft/ft_memcpy.c \
+	   libft/ft_memset.c \
 	   libft/ft_putstr_fd.c \
        libft/ft_strncmp.c \
 	   libft/ft_strchr.c \

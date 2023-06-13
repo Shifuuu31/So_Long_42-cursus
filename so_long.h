@@ -1,5 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   so_long.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: asaadane <asaadane@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/13 03:56:54 by asaadane          #+#    #+#             */
+/*   Updated: 2023/06/13 03:56:55 by asaadane         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SO_LONG_H
 # define SO_LONG_H
+
 
 #include "libft/libft.h"
 #include <unistd.h>
@@ -58,10 +71,10 @@ void get_player_position(t_data *data);
 void get_exit_position(t_data *data);
 void check_path(char **map, int x, int y);
 void scan_map(t_data *data);
-void create_new_win(t_data *data);
+void game_window(t_data *data);
 void rendr_all(t_data *data, int x, int y);
 bool compare_c_to_str(char *str, char c);
-int move_player(int key_code, t_data *data);
+int key_handle(int key, t_data *data);
 int kill_window(int key, void *param);
 void	render_map(t_data *data);
 

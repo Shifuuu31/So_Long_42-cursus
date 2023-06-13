@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   window.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: asaadane <asaadane@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/13 03:57:03 by asaadane          #+#    #+#             */
+/*   Updated: 2023/06/13 03:57:04 by asaadane         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
 void rendr_all(t_data *data, int x, int y)
@@ -6,7 +18,6 @@ void rendr_all(t_data *data, int x, int y)
 	if(data->map[y][x] == '0')
 	{
 		mlx_put_image_to_window(data->mlx, data->mlx_win, data->floor_img, x * 40, y * 40);
-
 	}
 	else if(data->map[y][x] == '1')
 	{
@@ -70,7 +81,7 @@ void	render_map(t_data *data)
 	}
 }
 
-void create_new_win(t_data *data)
+void game_window(t_data *data)
 {
 	void *param = NULL;
 	data->mlx = mlx_init();
@@ -78,10 +89,9 @@ void create_new_win(t_data *data)
 	init_images(data);
 	render_map(data);
 	get_player_position(data);
-	mlx_hook(data->mlx_win, 2, 0, move_player, data);
+	mlx_hook(data->mlx_win, 2, 0, key_handle, data);
 	mlx_hook(data->mlx_win, 17, 0, kill_window, param);
 	mlx_loop(data->mlx);
-
 }
 
 
