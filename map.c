@@ -6,170 +6,112 @@
 /*   By: asaadane <asaadane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 03:56:27 by asaadane          #+#    #+#             */
-/*   Updated: 2023/06/13 03:56:28 by asaadane         ###   ########.fr       */
+/*   Updated: 2023/06/23 23:54:44 by asaadane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
+void	check_nl(t_sl *sl)
+{
+	int	i;
 
-int check_extention(t_data *data, char *filename)
-{
-    data->extension = ".ber";
-    data->extension_length = ft_strlen(data->extension);
-    data->filename_length = ft_strlen(filename);
-    if (data->filename_length < data->extension_length
-            || ft_strncmp(filename + data->filename_length - data->extension_length, 
-            data->extension, data->extension_length) != 0)
-            {
-                ft_put_err("Failed to open the map file.\n");
-            }
-    return(0);
+	i = 0;
+	while (sl->map_line[i])
+	{
+		if (sl->map_line[i] == '\n' && sl->map_line[i + 1] == '\n')
+			ft_put_err("Invalid map: line error");
+		i++;
+	}
 }
-void check_nl(t_data *data)
-{
-    int i;
 
-    i = 0;
-    while(data->map_line[i])
-    {
-        if(data->map_line[i] == '\n' && data->map_line[i + 1] == '\n')
-            ft_put_err("Invalid map2");
-        i++;
-    }
-}
-void    load_map(t_data *data, char *filename)
+void	load_map(t_sl *sl, char *filename)
 {
-    
+	int		check;
 	char	*buffer;
-    int		check;
 
-	data->map_line = ft_strdup("");
-    data->map_file = open(filename, O_RDONLY);
-	if (data->map_file == -1)
-		ft_put_err("Failed to open the map file.\n");
+	sl->map_line = ft_strdup("");
+	sl->map_file = open(filename, O_RDONLY);
+	if (sl->map_file == -1)
+		ft_put_err("Mapfile Error: failed to open the map file.\n");
 	buffer = malloc(sizeof(char) * 2);
-    if(!buffer)
-        exit(1);
-	check = read(data->map_file, buffer, 1);
-    if(check == -1 || !check)
-		ft_put_err("Failed to open the map file.\n");
+	if (!buffer)
+		exit(1);
+	check = read(sl->map_file, buffer, 1);
+	if (check == -1 || !check)
+		ft_put_err("Mapfile Error: failed to open the map file.\n");
 	buffer[1] = '\0';
 	while (check > 0)
 	{
-		data->map_line = ft_strjoin(data->map_line, buffer);
-		check = read(data->map_file, buffer, 1);
+		sl->map_line = ft_strjoin(sl->map_line, buffer);
+		check = read(sl->map_file, buffer, 1);
 		buffer[1] = '\0';
 	}
 	free(buffer);
-    check_nl(data);
-    data->map = ft_split(data->map_line, '\n');
-    close(data->map_file);
+	check_nl(sl);
+	sl->map = ft_split(sl->map_line, '\n');
+	close(sl->map_file);
 }
 
-void check_map_size(t_data *data)
+void	check_map_size(t_sl *sl)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    data->map_width = 0;
-    data->map_height = 0;
-    data->map_width = ft_strlen(data->map[0]);
-    while(data->map[data->map_height])
-        data->map_height++;
-    while (data->map[i])
-    {
-        if(data->map_width != ft_strlen(data->map[i]))
-            ft_put_err("Invalid map: map size error\n");
-        i++;
-    }
-
+	i = 0;
+	sl->m_w = 0;
+	sl->m_h = 0;
+	sl->m_w = ft_strlen(sl->map[0]);
+	while (sl->map[sl->m_h])
+		sl->m_h++;
+	while (sl->map[i])
+	{
+		if (sl->m_w != ft_strlen(sl->map[i]))
+			ft_put_err("Invalid map: map size error\n");
+		i++;
+	}
 }
 
-void check_walls(t_data *data)
+void	check_walls(t_sl *sl)
 {
-    int  i = 0;
-   
-    if (compare_c_to_str(data->map[0], '1') == 0)
-        ft_put_err("Invalid map: walls error1\n");
-    if (compare_c_to_str(data->map[data->map_height - 1], '1') == 0)
-        ft_put_err("Invalid map: walls error2\n");
+	int	i;
 
-    while(data->map[i])
-    {
-        if (data->map[i][0] != '1' || data->map[i][ft_strlen(data->map[i]) - 1] != '1')
-            ft_put_err("Invalid map: walls error3\n");
-        i++;
-    }
+	i = 0;
+	if (compare_c_to_str(sl->map[0], '1') == 0)
+		ft_put_err("Invalid map: walls error\n");
+	if (compare_c_to_str(sl->map[sl->m_h - 1], '1') == 0)
+		ft_put_err("Invalid map: walls error\n");
+	while (sl->map[i])
+	{
+		if (sl->map[i][0] != '1'
+		|| sl->map[i][ft_strlen(sl->map[i]) - 1] != '1')
+			ft_put_err("Invalid map: walls error\n");
+		i++;
+	}
 }
 
-void check_map_data(t_data *data)
+void	check_map_elements(t_sl *sl)
 {
-    int i = 0;
-    int j;
-    data->p = 0;
-    data->c = 0;
-    data->e = 0;
-    while(data->map[i])
-    {
-        j = 0;
-        while(data->map[i][j])
-        {
-            if(data->map[i][j] != '0' && data->map[i][j] != '1' 
-            && data->map[i][j] != 'E' && data->map[i][j] != 'P'
-            && data->map[i][j] != 'C')
-            {
-                printf("%c\n-----\ni = [%d] | j =[%d]\n", data->map[i][j], i, j);
-                ft_put_err("Invalid map: datas error1\n");
-            }
-            if(data->map[i][j] == 'P')
-                data->p++;
-            if(data->map[i][j] == 'C')
-                data->c++;
-            if(data->map[i][j] == 'E')
-                data->e++;
-            j++;
-        }
-        i++;
-    }
-    if (data->p != 1 || !data->c || data->e != 1)
-    {
-        ft_put_err("Invalid map: datas error2\n");
-    }
+	int	i;
+	int	j;
+
+	i = -1;
+	while (sl->map[++i])
+	{
+		j = -1;
+		while (sl->map[i][++j])
+		{
+			if (sl->map[i][j] != '0' && sl->map[i][j] != '1'
+			&& sl->map[i][j] != 'E' && sl->map[i][j] != 'P'
+			&& sl->map[i][j] != 'C')
+				ft_put_err("Invalid map: elements error\n");
+			if (sl->map[i][j] == 'P')
+				sl->p++;
+			if (sl->map[i][j] == 'C')
+				sl->c++;
+			if (sl->map[i][j] == 'E')
+				sl->e++;
+		}
+	}
+	if (sl->p != 1 || !sl->c || sl->e != 1)
+		ft_put_err("Invalid map: elements error\n");
 }
-
-void get_player_position(t_data *data)
-{
-    data->py = 0;
-    while(data->map[data->py])
-    {
-        data->px = 0;
-        while(data->map[data->py][data->px])
-        {
-            if(data->map[data->py][data->px] == 'P')
-                return;
-            data->px++;
-        }
-        data->py++;
-    }
-}
-
-void get_exit_position(t_data *data)
-{
-    data->ey = 0;
-    while(data->map[data->ey])
-    {
-        data->ex = 0;
-        while(data->map[data->ey][data->ex])
-        {
-            if(data->map[data->ey][data->ex] == 'E')
-            {
-                return;
-            }
-            data->ex++;
-        }
-        data->ey++;
-    }
-}
-
-

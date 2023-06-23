@@ -6,51 +6,45 @@
 /*   By: asaadane <asaadane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 03:56:51 by asaadane          #+#    #+#             */
-/*   Updated: 2023/06/13 03:56:52 by asaadane         ###   ########.fr       */
+/*   Updated: 2023/06/23 23:48:42 by asaadane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-
-void check_path(char **map, int y, int x)
+void	check_path(char **map, int y, int x)
 {
-    if (map[y][x] == 'X' || map[y][x] == 'E' || map[y][x] == '1')
-        return;
-
-    map[y][x] = 'X';
-    check_path(map, y + 1, x);  // Right
-    check_path(map, y - 1, x);  // Left
-    check_path(map, y, x + 1);  // Down
-    check_path(map, y, x - 1);  // Up
+	if (map[y][x] == 'X' || map[y][x] == 'E' || map[y][x] == '1')
+		return ;
+	map[y][x] = 'X';
+	check_path(map, y + 1, x);
+	check_path(map, y - 1, x);
+	check_path(map, y, x + 1);
+	check_path(map, y, x - 1);
 }
 
-void scan_map(t_data *data)
+void	scan_map(t_sl *sl)
 {
-    int i;
-    int j;
+	int	i;
+	int	j;
 
-    i = 0;
-    if (data->tmp_map[data->ey][data->ex + 1] != 'X' 
-	&& data->tmp_map[data->ey][data->ex - 1] != 'X' 
-	&& data->tmp_map[data->ey + 1][data->ex] != 'X' 
-	&& data->tmp_map[data->ey - 1][data->ex] != 'X')
+	i = 0;
+	if (sl->tmp_map[sl->ey][sl->ex + 1] != 'X'
+	&& sl->tmp_map[sl->ey][sl->ex - 1] != 'X'
+	&& sl->tmp_map[sl->ey + 1][sl->ex] != 'X'
+	&& sl->tmp_map[sl->ey - 1][sl->ex] != 'X')
 	{
-		ft_put_err("Cannot find a valid path1\n");
+		ft_put_err("Cannot find a valid path\n");
 	}
-	while (data->tmp_map[i])
+	while (sl->tmp_map[i])
 	{
-        j = 0;
-		while (data->tmp_map[i][j])
+		j = 0;
+		while (sl->tmp_map[i][j])
 		{
-			if (data->tmp_map[i][j] == 'C')
-				ft_put_err("Cannot find a valid path 2\n");
+			if (sl->tmp_map[i][j] == 'C')
+				ft_put_err("Cannot find a valid path\n");
 			j++;
 		}
 		i++;
 	}
-    puts("Valid");
 }
-
-
-

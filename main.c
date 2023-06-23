@@ -6,55 +6,45 @@
 /*   By: asaadane <asaadane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 03:56:39 by asaadane          #+#    #+#             */
-/*   Updated: 2023/06/13 03:59:13 by asaadane         ###   ########.fr       */
+/*   Updated: 2023/06/23 23:38:38 by asaadane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
+void	create_tmp_map(t_sl *sl)
+{
+	int	i;
+
+	i = 0;
+	sl->tmp_map = malloc(sizeof(char *) * sl->m_h + 1);
+	while (sl->map[i])
+	{
+		sl->tmp_map[i] = ft_strdup(sl->map[i]);
+		i++;
+	}
+	sl->tmp_map[i] = NULL;
+}
+
 int	main(int ac, char **av)
 {
-	int		i;
-	t_data	data;
+	t_sl	sl;
 
 	if (ac < 2)
 		ft_put_err("Usage : ./so_long <map.ber>\n");
-	ft_memset(&data, 0, sizeof(t_data));
-	check_extention(&data, av[1]);
-	load_map(&data, av[1]);
-
-	puts("------------------");
-	puts("Original Map:");
-	puts("------------------");
-	for(int i = 0; data.map[i]; i++)
-	{
-		printf("%s\n", data.map[i]);
-	}
-	check_map_size(&data);
-	check_map_data(&data);
-	check_walls(&data);
-	get_player_position(&data);
-	get_exit_position(&data);
-	data.tmp_map = malloc(sizeof(char *) * data.map_height + 1);
-	i = 0;
-	while (data.map[i])
-	{
-		data.tmp_map[i] = ft_strdup(data.map[i]);
-		i++;
-	}
-	data.tmp_map[i] = NULL;
-	check_path(data.tmp_map, data.px, data.py);
-	puts("------------------");
-	puts("Fake Map:");
-	puts("------------------");
-	for(int i = 0; data.tmp_map[i]; i++)
-	{
-		printf("%s\n", data.tmp_map[i]);
-	}
-	puts("------------------");
-	scan_map(&data);
-	game_window(&data);
-	free(data.tmp_map);
-	free(data.map);
-	return(0);
+	ft_memset(&sl, 0, sizeof(t_sl));
+	check_extention(&sl, av[1]);
+	load_map(&sl, av[1]);
+	check_map_size(&sl);
+	check_walls(&sl);
+	check_map_elements(&sl);
+	create_tmp_map(&sl);
+	get_player_position(&sl);
+	get_exit_position(&sl);
+	check_path(sl.tmp_map, sl.px, sl.py);
+	scan_map(&sl);
+	game_window(&sl);
+	free(sl.tmp_map);
+	free(sl.map);
+	return (0);
 }

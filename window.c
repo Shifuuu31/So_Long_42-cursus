@@ -6,92 +6,89 @@
 /*   By: asaadane <asaadane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 03:57:03 by asaadane          #+#    #+#             */
-/*   Updated: 2023/06/13 03:57:04 by asaadane         ###   ########.fr       */
+/*   Updated: 2023/06/23 23:43:34 by asaadane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void rendr_all(t_data *data, int x, int y)
+void	rendr_all(t_sl *sl, int x, int y)
 {
-
-	if(data->map[y][x] == '0')
+	if (sl->map[y][x] == '0')
 	{
-		mlx_put_image_to_window(data->mlx, data->mlx_win, data->floor_img, x * 40, y * 40);
+		mlx_put_image_to_window(sl->mlx, sl->win, sl->floor, x * 40, y * 40);
 	}
-	else if(data->map[y][x] == '1')
+	else if (sl->map[y][x] == '1')
 	{
-		mlx_put_image_to_window(data->mlx, data->mlx_win, data->wall_img, x * 40, y * 40);
+		mlx_put_image_to_window(sl->mlx, sl->win, sl->wall, x * 40, y * 40);
 	}
-	else if(data->map[y][x] == 'P')
+	else if (sl->map[y][x] == 'P')
 	{
-		mlx_put_image_to_window(data->mlx, data->mlx_win, data->player_img, x * 40, y * 40);
+		mlx_put_image_to_window(sl->mlx, sl->win, sl->player, x * 40, y * 40);
 	}
-	else if(data->map[y][x] == 'E' && !data->c)
+	else if (sl->map[y][x] == 'E' && !sl->c)
 	{
-		mlx_put_image_to_window(data->mlx, data->mlx_win, data->o_exit_img, x * 40, y * 40);
+		mlx_put_image_to_window(sl->mlx, sl->win, sl->o_exit, x * 40, y * 40);
 	}
-	else if(data->map[y][x] == 'E')
+	else if (sl->map[y][x] == 'E')
 	{
-		mlx_put_image_to_window(data->mlx, data->mlx_win, data->exit_img, x * 40, y * 40);
+		mlx_put_image_to_window(sl->mlx, sl->win, sl->exit, x * 40, y * 40);
 	}
 	else
-		mlx_put_image_to_window(data->mlx, data->mlx_win, data->coin_img, x * 40, y * 40);
+		mlx_put_image_to_window(sl->mlx, sl->win, sl->coin, x * 40, y * 40);
 }
 
-void	init_images(t_data *data)
+void	init_images(t_sl *sl)
 {
-	int h;
-	int w;
+	int	h;
+	int	w;
 
-	data->floor_img = mlx_xpm_file_to_image(data->mlx, "images/floor.xpm", &w, &h);
-	if (!data->floor_img)
+	sl->floor = mlx_xpm_file_to_image(sl->mlx, "images/floor.xpm", &w, &h);
+	if (!sl->floor)
 		ft_put_err("Error\n");
-	data->wall_img = mlx_xpm_file_to_image(data->mlx, "images/wall.xpm", &w, &h);
-	if (!data->wall_img)
+	sl->wall = mlx_xpm_file_to_image(sl->mlx, "images/wall.xpm", &w, &h);
+	if (!sl->wall)
 		ft_put_err("Error\n");
-	data->player_img = mlx_xpm_file_to_image(data->mlx, "images/player.xpm", &w, &h);
-	if (!data->player_img)
+	sl->player = mlx_xpm_file_to_image(sl->mlx, "images/player.xpm", &w, &h);
+	if (!sl->player)
 		ft_put_err("Error\n");
-	data->exit_img = mlx_xpm_file_to_image(data->mlx, "images/door.xpm", &w, &h);
-	if (!data->exit_img)
+	sl->exit = mlx_xpm_file_to_image(sl->mlx, "images/door.xpm", &w, &h);
+	if (!sl->exit)
 		ft_put_err("Error\n");
-	data->o_exit_img = mlx_xpm_file_to_image(data->mlx, "images/open_door.xpm", &w, &h);
-	if (!data->o_exit_img)
+	sl->o_exit = mlx_xpm_file_to_image(sl->mlx, "images/open_door.xpm", &w, &h);
+	if (!sl->o_exit)
 		ft_put_err("Error\n");
-	data->coin_img = mlx_xpm_file_to_image(data->mlx, "images/key.xpm", &w, &h);
-	if (!data->coin_img)
+	sl->coin = mlx_xpm_file_to_image(sl->mlx, "images/key.xpm", &w, &h);
+	if (!sl->coin)
 		ft_put_err("Error\n");
 }
 
-void	render_map(t_data *data)
+void	render_map(t_sl *sl)
 {
-	int x, y;
+	int	y;
+	int	x;
 
 	y = 0;
-	while (data->map[y])
+	while (sl->map[y])
 	{
 		x = 0;
-		while (data->map[y][x])
+		while (sl->map[y][x])
 		{
-			rendr_all(data, x, y);
+			rendr_all(sl, x, y);
 			x++;
 		}
 		y++;
 	}
 }
 
-void game_window(t_data *data)
+void	game_window(t_sl *sl)
 {
-	void *param = NULL;
-	data->mlx = mlx_init();
-	data->mlx_win = mlx_new_window(data->mlx, data->map_width * 40, data->map_height * 40, "SO_LONG");
-	init_images(data);
-	render_map(data);
-	get_player_position(data);
-	mlx_hook(data->mlx_win, 2, 0, key_handle, data);
-	mlx_hook(data->mlx_win, 17, 0, kill_window, param);
-	mlx_loop(data->mlx);
+	sl->mlx = mlx_init();
+	sl->win = mlx_new_window(sl->mlx, sl->m_w * 40, sl->m_h * 40, N);
+	init_images(sl);
+	render_map(sl);
+	get_player_position(sl);
+	mlx_hook(sl->win, 2, 0, key_handle, sl);
+	mlx_hook(sl->win, 17, 0, kill_window, NULL);
+	mlx_loop(sl->mlx);
 }
-
-
