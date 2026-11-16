@@ -1,4 +1,6 @@
 *.o
 *.a
 so_long
+run_unit_tests
+tests/run_unit_tests
 minilibx-linux/

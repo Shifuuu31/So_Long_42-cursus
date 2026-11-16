@@ -86,4 +86,7 @@ shifuuu:
 			@echo "	\033[37m╚═╝░░░░░╚═╝╚═╝░░╚═╝╚═════╝░░░░╚═╝░░░╚══════╝╚═╝░░╚═╝"
 			@echo "															 "
 
-.PHONY: all clean fclean re shifuuu
+test:
+				@make -C tests
+
+.PHONY: all clean fclean re shifuuu test
