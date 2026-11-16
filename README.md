@@ -129,6 +129,7 @@ make
 
 Available build rules:
 - `make` or `make all`: Compiles the executable `so_long`.
+- `make test`: Builds and executes the automated C unit test suite (57 assertions).
 - `make clean`: Removes intermediate object files (`.o`).
 - `make fclean`: Removes object files and the `so_long` executable.
 - `make re`: Performs a clean re-compilation.
