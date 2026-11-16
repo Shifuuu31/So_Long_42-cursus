@@ -17,7 +17,7 @@ void	create_tmp_map(t_sl *sl)
 	int	i;
 
 	i = 0;
-	sl->tmp_map = malloc(sizeof(char *) * sl->m_h + 1);
+	sl->tmp_map = malloc(sizeof(char *) * (sl->m_h + 1));
 	while (sl->map[i])
 	{
 		sl->tmp_map[i] = ft_strdup(sl->map[i]);
@@ -41,7 +41,7 @@ int	main(int ac, char **av)
 	create_tmp_map(&sl);
 	get_player_position(&sl);
 	get_exit_position(&sl);
-	check_path(sl.tmp_map, sl.px, sl.py);
+	check_path(sl.tmp_map, sl.py, sl.px);
 	scan_map(&sl);
 	game_window(&sl);
 	free(sl.tmp_map);

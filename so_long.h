@@ -59,7 +59,7 @@ void	ft_put_err(char *err_msg);
 void	check_map_elements(t_sl *sl);
 void	get_player_position(t_sl *sl);
 void	get_exit_position(t_sl *sl);
-void	check_path(char **map, int x, int y);
+void	check_path(char **map, int y, int x);
 void	scan_map(t_sl *sl);
 void	game_window(t_sl *sl);
 void	rendr_all(t_sl *sl, int x, int y);

@@ -66,20 +66,20 @@ char	**ft_split(const char *s, char c)
 	j = 0;
 	if (!s)
 		return (NULL);
-		wc = word_counter((char *)s, c);
-		split = (char **)malloc((wc + 1) * sizeof(char *));
+	wc = word_counter((char *)s, c);
+	split = (char **)malloc((wc + 1) * sizeof(char *));
 	if (!split)
 		return (NULL);
 	while (j < wc && s[i])
 	{
 		while (s[i] == c && s[i])
-				i++;
-			split[j] = ft_substr((char *)s, i, word_len((char *)s, c, i));
+			i++;
+		split[j] = ft_substr((char *)s, i, word_len((char *)s, c, i));
 		if (!split[j])
 			return (ft_free(j, split));
-			j++;
-			i = i + word_len((char *)s, c, i);
+		j++;
+		i = i + word_len((char *)s, c, i);
 	}
-		split[j] = NULL;
+	split[j] = NULL;
 	return (split);
 }

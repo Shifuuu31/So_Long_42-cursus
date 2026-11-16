@@ -88,7 +88,7 @@ void	game_window(t_sl *sl)
 	init_images(sl);
 	render_map(sl);
 	get_player_position(sl);
-	mlx_hook(sl->win, 2, 0, key_handle, sl);
-	mlx_hook(sl->win, 17, 0, kill_window, NULL);
+	mlx_hook(sl->win, 2, 1L << 0, key_handle, sl);
+	mlx_hook(sl->win, 17, 1L << 17, kill_window, NULL);
 	mlx_loop(sl->mlx);
 }
