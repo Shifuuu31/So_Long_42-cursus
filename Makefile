@@ -1,30 +1,30 @@
-SRCS = main.c \
-       map.c \
-       tools.c \
-       tools_2.c \
-       path.c \
-       window.c \
-       move.c \
-	   libft/ft_strlen.c \
-	   libft/ft_strdup.c \
-	   libft/ft_memcpy.c \
-	   libft/ft_memset.c \
-	   libft/ft_putchar_fd.c \
-	   libft/ft_putstr_fd.c \
-	   libft/ft_putnbr_fd.c \
-       libft/ft_strncmp.c \
-	   libft/ft_strchr.c \
-	   libft/ft_strlcpy.c \
-	   libft/ft_split.c \
-	   libft/ft_substr.c \
-	   libft/ft_strjoin.c 
+SRCS = src/main.c \
+       src/map.c \
+       src/tools.c \
+       src/tools_2.c \
+       src/path.c \
+       src/window.c \
+       src/move.c \
+       src/libft/ft_strlen.c \
+       src/libft/ft_strdup.c \
+       src/libft/ft_memcpy.c \
+       src/libft/ft_memset.c \
+       src/libft/ft_putchar_fd.c \
+       src/libft/ft_putstr_fd.c \
+       src/libft/ft_putnbr_fd.c \
+       src/libft/ft_strncmp.c \
+       src/libft/ft_strchr.c \
+       src/libft/ft_strlcpy.c \
+       src/libft/ft_split.c \
+       src/libft/ft_substr.c \
+       src/libft/ft_strjoin.c 
 
 OBJS			= $(SRCS:.c=.o)
-HDRS			=	so_long.h \
-					libft/libft.h
+HDRS			= header/so_long.h \
+				  header/libft.h
 CC				= cc
 RM				= rm -f
-CFLAGS			= -Wall -Wextra -Werror -g
+CFLAGS			= -Wall -Wextra -Werror -g -Iheader
 UNAME			= $(shell uname)
 
 ifeq ($(UNAME), Darwin)

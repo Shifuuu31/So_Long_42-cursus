@@ -46,13 +46,13 @@ flowchart TD
 
 ## 2. Core Subsystems
 
-### 2.1 File Parser & Ingestion ([`map.c`](../map.c))
+### 2.1 File Parser & Ingestion ([`map.c`](../src/map.c))
 - **File Stream Access**: Uses `open(filename, O_RDONLY)` to access the target map.
 - **Dynamic Ingestion**: Reads byte-by-byte into a dynamically expanded buffer using `ft_strjoin`.
 - **Formatting Validation**: `check_nl()` scans for consecutive newlines (`\n\n`), preventing empty rows within the map definition.
 - **Grid Generation**: Invokes `ft_split(sl->map_line, '\n')` to produce the null-terminated 2D array (`char **map`).
 
-### 2.2 Integrity & Path Validation ([`path.c`](../path.c), [`map.c`](../map.c))
+### 2.2 Integrity & Path Validation ([`path.c`](../src/path.c), [`map.c`](../src/map.c))
 1. **Geometric Rectangularity**: `check_map_size()` verifies that every row length equals `sl->m_w`.
 2. **Perimeter Enclosure**: `check_walls()` asserts that row `0`, row `m_h - 1`, column `0`, and column `m_w - 1` are solid walls (`'1'`).
 3. **Element Counting**: `check_map_elements()` enforces:
@@ -66,7 +66,7 @@ flowchart TD
    - Recursion halts at `'1'`, `'E'`, or already visited `'X'`. This ensures that players cannot bypass walls or pass through the exit before collecting keys.
    - `scan_map()` verifies that every `'C'` was reached (`'X'`) and that at least one tile adjacent to `'E'` was reached.
 
-### 2.3 Graphics & Texture Pipeline ([`window.c`](../window.c))
+### 2.3 Graphics & Texture Pipeline ([`window.c`](../src/window.c))
 - **MiniLibX Subsystem**: Interacts with the display server via `mlx_init()` and creates a native window using `mlx_new_window()`.
 - **Texture Loading**: Assets in `images/` are converted to MiniLibX image pointers via `mlx_xpm_file_to_image()`:
   - `floor.xpm` (empty tile `'0'`)
@@ -77,7 +77,7 @@ flowchart TD
   - `key.xpm` (collectible `'C'`)
 - **Coordinate Mapping**: World tile coordinates `(x, y)` map to window pixel coordinates `(x * 40, y * 40)`.
 
-### 2.4 Event Dispatching & Movement ([`move.c`](../move.c))
+### 2.4 Event Dispatching & Movement ([`move.c`](../src/move.c))
 - **Hook Registration**:
   - `mlx_hook(win, 2, KeyPressMask, key_handle, sl)`: Captures keyboard input.
   - `mlx_hook(win, 17, StructureNotifyMask, kill_window, NULL)`: Captures window close events.
@@ -91,7 +91,7 @@ flowchart TD
 
 ## 3. Data Structure (`t_sl`)
 
-The central game state is encapsulated in `t_sl`, declared in [`so_long.h`](../so_long.h):
+The central game state is encapsulated in `t_sl`, declared in [`so_long.h`](../header/so_long.h):
 
 ```c
 typedef struct s_sl

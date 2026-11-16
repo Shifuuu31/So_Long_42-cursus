@@ -1,4 +1,4 @@
-#include "../so_long.h"
+#include "so_long.h"
 #include <sys/wait.h>
 #include <fcntl.h>
 

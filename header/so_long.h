@@ -15,7 +15,7 @@
 
 # define N "SO_LONG"
 
-# include "libft/libft.h"
+# include "libft.h"
 # include <unistd.h>
 # include <string.h>
 # include <stdlib.h>

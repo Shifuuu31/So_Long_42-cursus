@@ -20,14 +20,14 @@ The game is built in C using 42's graphical library, **MiniLibX**, interfacing w
 
 | File | Primary Responsibility |
 | :--- | :--- |
-| [`main.c`](../main.c) | Entry point; orchestrates map parsing, validation chain, game launch, and final cleanup. |
-| [`map.c`](../map.c) | Map file reading, dimension verification, wall validation, and element counting (`P`, `E`, `C`). |
-| [`move.c`](../move.c) | Player coordinate updates, collision detection, movement counter display, win trigger, and input handler. |
-| [`path.c`](../path.c) | Recursive depth-first search (flood fill) reachability validation for all collectibles and exit. |
-| [`tools.c`](../tools.c) | Utility functions for extension checking, error termination, string comparisons, and entity locating. |
-| [`tools_2.c`](../tools_2.c) | Counter initialization and colored terminal exit messages (`Game Over !!`, `You Win !!`). |
-| [`window.c`](../window.c) | MiniLibX window initialization, XPM texture loading, initial tile rendering, and event hook registration. |
-| [`so_long.h`](../so_long.h) | Primary header declaring data structure `t_sl`, function prototypes, and standard library includes. |
+| [`main.c`](../src/main.c) | Entry point; orchestrates map parsing, validation chain, game launch, and final cleanup. |
+| [`map.c`](../src/map.c) | Map file reading, dimension verification, wall validation, and element counting (`P`, `E`, `C`). |
+| [`move.c`](../src/move.c) | Player coordinate updates, collision detection, movement counter display, win trigger, and input handler. |
+| [`path.c`](../src/path.c) | Recursive depth-first search (flood fill) reachability validation for all collectibles and exit. |
+| [`tools.c`](../src/tools.c) | Utility functions for extension checking, error termination, string comparisons, and entity locating. |
+| [`tools_2.c`](../src/tools_2.c) | Counter initialization and colored terminal exit messages (`Game Over !!`, `You Win !!`). |
+| [`window.c`](../src/window.c) | MiniLibX window initialization, XPM texture loading, initial tile rendering, and event hook registration. |
+| [`so_long.h`](../header/so_long.h) | Primary header declaring data structure `t_sl`, function prototypes, and standard library includes. |
 | [`Makefile`](../Makefile) | Cross-platform build script supporting automatic OS detection (`Linux` vs `Darwin`), compilation, and cleanup. |
 
 ---
@@ -181,7 +181,7 @@ The engine now selectively redraws only the modified coordinates:
 | **Left Arrow** | `65361` (`XK_Left`) | `123` |
 | **Right Arrow** | `65363` (`XK_Right`) | `124` |
 
-Both platforms are natively handled in the updated [Makefile](../Makefile) and [move.c](../move.c).
+Both platforms are natively handled in the updated [Makefile](../Makefile) and [move.c](../src/move.c).
 
 ---
 

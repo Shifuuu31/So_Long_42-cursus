@@ -30,7 +30,7 @@ The player's mission is to:
 
 ## 3. Movement & Collision Detection
 
-Movement is managed by `move_player(t_sl *sl, int row, int col)` in [`move.c`](../move.c):
+Movement is managed by `move_player(t_sl *sl, int row, int col)` in [`move.c`](../src/move.c):
 
 ```c
 target_x = sl->px + row;

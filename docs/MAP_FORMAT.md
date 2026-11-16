@@ -65,7 +65,7 @@ Invalid map: elements error
 ```
 
 ### 2.6 Path Reachability (Flood Fill)
-Enforced by `check_path()` and `scan_map()` in [`path.c`](../path.c):
+Enforced by `check_path()` and `scan_map()` in [`path.c`](../src/path.c):
 1. **Collectible Reachability**: The player must be able to reach every single `'C'` on the map without stepping on the exit `'E'` (since the exit is impassable prior to collecting all keys).
 2. **Exit Reachability**: The exit `'E'` must have at least one reachable orthogonal neighbor (`Up`, `Down`, `Left`, `Right`).
 
