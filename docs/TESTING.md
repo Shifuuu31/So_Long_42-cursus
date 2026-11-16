@@ -107,7 +107,7 @@ TEST SUMMARY:
 
 ---
 
-## 2. Valid Map Test Suite
+## 3. Valid Map Test Suite
 
 All 27 maps in the repository were verified against the engine's validation pipeline (`check_extention`, `load_map`, `check_map_size`, `check_walls`, `check_map_elements`, `check_path`, and `scan_map`):
 
@@ -143,7 +143,7 @@ All 27 maps in the repository were verified against the engine's validation pipe
 
 ---
 
-## 3. Invalid Map Test Suite & Error Resilience
+## 4. Invalid Map Test Suite & Error Resilience
 
 The table below lists automated edge-case test maps and their observed error outputs:
 
@@ -163,7 +163,7 @@ The table below lists automated edge-case test maps and their observed error out
 
 ---
 
-## 4. Functional Gameplay Verifications
+## 5. Functional Gameplay Verifications
 
 Live testing confirmed the following behaviors:
 1. **Wall Collision**: Moving into any wall tile (`'1'`) was blocked immediately. Player position remained unchanged; movement count did not increment.
@@ -176,7 +176,7 @@ Live testing confirmed the following behaviors:
 
 ---
 
-## 5. Performance & Framerate Benchmark
+## 6. Performance & Framerate Benchmark
 
 Performance was evaluated on a 59 × 31 labyrinth (1,829 tiles):
 

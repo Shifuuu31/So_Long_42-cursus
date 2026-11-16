@@ -187,6 +187,7 @@ So_Long_42-cursus/
 ├── maps/                    # Standard maps (.ber) and 20-level campaign
 ├── libft/                   # Custom C helper library
 ├── docs/                    # In-depth architectural, mechanic, and testing docs
+├── tests/                   # Automated C unit test suite (57 assertions)
 └── assets/                  # Genuine screenshots, diagrams, and project banner
 ```
 
@@ -201,7 +202,7 @@ For detailed architectural diagrams, mechanics, and testing logs, consult the `d
 - 🎮 [Game Mechanics](docs/GAME_MECHANICS.md) — Detailed collision formulas, sprite states, and keycodes.
 - 🗺️ [Map Format Specification](docs/MAP_FORMAT.md) — Detailed parsing rules, valid vs invalid map diagnostics.
 - 🛠️ [Build & Usage Guide](docs/BUILD_AND_USAGE.md) — OS-specific setup, troubleshooting, and compiler flags.
-- 🧪 [Testing & Verification](docs/TESTING.md) — Complete 27-map test suite and performance benchmarks.
+- 🧪 [Testing & Verification](docs/TESTING.md) — Complete 27-map test suite, 57-assertion unit tests, and performance benchmarks.
 
 ---
 
